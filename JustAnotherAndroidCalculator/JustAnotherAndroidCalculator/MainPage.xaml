@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:JustAnotherAndroidCalculator"
+             x:Class="JustAnotherAndroidCalculator.MainPage">
+
+    <Grid Padding="0" Margin="0" WidthRequest="100">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"></RowDefinition>
+            <RowDefinition Height="6*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" >
+            <local:GradientStack Grid.Row="0" StartColor="#5650f0" EndColor="#8c82f5">
+                <Label VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center" x:Name="CurrentNumber" FontSize="80" TextColor="#fefefe">000.00</Label>
+            </local:GradientStack>
+            <Label Grid.Row="0" x:Name="CurrentEquationOverview" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End" TextColor="#d2d3e2" FontSize="20" Text="0"></Label>
+        </Grid>
+
+        <local:GradientStack Grid.Row="1" StartColor="#353b46" EndColor="#414759"/>
+        <Grid Grid.Row="1" Margin="0" Padding="0" x:Name="Numbers">
+
+            <Grid Grid.Row="0" ColumnSpan="3">
+                <local:CalculatorButton Grid.Column="0" Text="+" Clicked="OperatorClicked"/>
+                <local:CalculatorButton Grid.Column="1" Text="-" Clicked="OperatorClicked"/>
+                <local:CalculatorButton Grid.Column="2"  Text="/" Clicked="OperatorClicked"/>
+                <local:CalculatorButton Grid.Column="3"  Text="*" Clicked="OperatorClicked"/>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+            </Grid>
+
+            <local:CalculatorButton Grid.Row="1" Grid.Column="0" Text="7" Clicked="NumberClicked"/>
+            <local:CalculatorButton Grid.Row="1" Grid.Column="1" Text="8" Clicked="NumberClicked"/>
+            <local:CalculatorButton Grid.Row="1" Grid.Column="2" Text="9" Clicked="NumberClicked"/>
+
+            <local:CalculatorButton Grid.Row="2" Grid.Column="0" Text="4" Clicked="NumberClicked"/>
+            <local:CalculatorButton Grid.Row="2" Grid.Column="1" Text="5" Clicked="NumberClicked"/>
+            <local:CalculatorButton Grid.Row="2" Grid.Column="2" Text="6" Clicked="NumberClicked"/>
+
+            <local:CalculatorButton Grid.Row="3" Grid.Column="0" Text="1" Clicked="NumberClicked"/>
+            <local:CalculatorButton Grid.Row="3" Grid.Column="1" Text="2" Clicked="NumberClicked"/>
+            <local:CalculatorButton Grid.Row="3" Grid.Column="2" Text="3" Clicked="NumberClicked"/>
+
+            <local:CalculatorButton Grid.Row="4" Grid.Column="0" Text="C" Clicked="ClearClicked"/>
+            <local:CalculatorButton Grid.Row="4" Grid.Column="1" Text="0" Clicked="NumberClicked"/>
+            <local:GradientStack Grid.Row="4" Grid.Column="2" StartColor="#8c82f5" EndColor="#8c82f5"/>
+            <local:CalculatorButton Grid.Row="4" Grid.Column="2" Text="=" Clicked="EqualsClicked"/>
+
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+        </Grid>
+    </Grid>
+
+</ContentPage>
