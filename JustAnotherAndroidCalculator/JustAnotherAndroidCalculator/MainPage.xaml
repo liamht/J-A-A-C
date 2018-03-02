@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:JustAnotherAndroidCalculator"
              x:Class="JustAnotherAndroidCalculator.MainPage">
 
-    <Grid Padding="0" Margin="0" WidthRequest="100">
+    <Grid Padding="0" WidthRequest="100">
         <Grid.RowDefinitions>
             <RowDefinition Height="4*"></RowDefinition>
             <RowDefinition Height="6*"></RowDefinition>
@@ -12,9 +12,9 @@
 
         <Grid Grid.Row="0" >
             <local:GradientStack Grid.Row="0" StartColor="#5650f0" EndColor="#8c82f5">
-                <Label VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center" x:Name="CurrentNumber" FontSize="80" TextColor="#fefefe">000.00</Label>
+                <Label VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center" x:Name="CurrentNumber" FontSize="80" TextColor="#fefefe"  Margin="0, 50, 0, 35" >0</Label>
             </local:GradientStack>
-            <Label Grid.Row="0" x:Name="CurrentEquationOverview" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End" TextColor="#d2d3e2" FontSize="20" Text="0"></Label>
+            <Label Grid.Row="0" x:Name="CurrentEquationOverview" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End" TextColor="#d2d3e2" FontSize="20"  Margin="0, 35, 10, 0" Text="0"></Label>
         </Grid>
 
         <local:GradientStack Grid.Row="1" StartColor="#353b46" EndColor="#414759"/>
