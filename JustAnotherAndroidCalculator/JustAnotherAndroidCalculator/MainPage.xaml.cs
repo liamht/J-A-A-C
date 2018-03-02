@@ -70,7 +70,7 @@ namespace JustAnotherAndroidCalculator
             var buttonText = (sender as Button).Text;
             if (_operationToPerform != null)
             {
-                var result = Math.Round(_operationToPerform.Invoke(_firstNumber.GetValueOrDefault(), _secondNumber.GetValueOrDefault()), 2);
+                var result = CalculateEquation(_firstNumber, _secondNumber);
                 _firstNumber = result;
             }
             else
@@ -100,6 +100,21 @@ namespace JustAnotherAndroidCalculator
             CurrentEquationOverview.Text = GetSummaryText();
         }
 
+        private double CalculateEquation(double? firstNumber, double? secondNumber)
+        {
+            if (_operationToPerform == null)
+            {
+                throw new InvalidOperationException("Operation was not set");
+            }
+
+            if (firstNumber == null || secondNumber == null)
+            {
+                throw new InvalidOperationException("Operands were not set");
+            }
+
+            return Math.Round(_operationToPerform.Invoke(firstNumber.Value, secondNumber.Value), 2);
+        }
+
         private void EqualsClicked(object sender, EventArgs e)
         {
             if (_operationToPerform == null)
@@ -110,7 +125,7 @@ namespace JustAnotherAndroidCalculator
             _secondNumber = double.Parse(_currentNumberAsString);
             CurrentEquationOverview.Text = GetSummaryText();
 
-            var result = Math.Round(_operationToPerform.Invoke(_firstNumber.GetValueOrDefault(), _secondNumber.GetValueOrDefault()), 2);
+            var result = CalculateEquation(_firstNumber, _secondNumber);
             CurrentNumberAsString = result.ToString();
 
             _firstNumber = result;
@@ -125,6 +140,7 @@ namespace JustAnotherAndroidCalculator
             CurrentEquationOverview.Text = "0";
             CurrentNumberAsString = "0";
         }
+
         private string GetSummaryText()
         {
             if (_secondNumber != null)
