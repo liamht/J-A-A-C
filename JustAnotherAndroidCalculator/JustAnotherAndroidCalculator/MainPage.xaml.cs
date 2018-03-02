@@ -130,6 +130,7 @@ namespace JustAnotherAndroidCalculator
 
             _firstNumber = result;
             _secondNumber = 0;
+            _operationToPerform = null;
         }
 
         private void ClearClicked(object sender, EventArgs e)
