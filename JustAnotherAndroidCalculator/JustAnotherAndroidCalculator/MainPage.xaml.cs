@@ -50,13 +50,33 @@ namespace JustAnotherAndroidCalculator
 
             CurrentNumberAsString = CurrentNumberAsString.ToLowerInvariant().Replace("infinity", "") + buttonText;
 
-            CurrentNumberAsString = Double.Parse(CurrentNumberAsString).ToString();
-            CurrentEquationOverview.Text += CurrentNumberAsString;
+            var value = Double.Parse(CurrentNumberAsString);
+            CurrentNumberAsString = value.ToString();
+
+            if (_operationToPerform == null)
+            {
+                _firstNumber = value;
+            }
+            else
+            {
+                _secondNumber = value;
+            }
+
+            CurrentEquationOverview.Text = GetSummaryText();
         }
 
         private void OperatorClicked(object sender, EventArgs e)
         {
             var buttonText = (sender as Button).Text;
+            if (_operationToPerform != null)
+            {
+                var result = Math.Round(_operationToPerform.Invoke(_firstNumber.GetValueOrDefault(), _secondNumber.GetValueOrDefault()), 2);
+                _firstNumber = result;
+            }
+            else
+            {
+                _firstNumber = Double.Parse(CurrentNumberAsString);
+            }
 
             switch (buttonText)
             {
@@ -73,9 +93,7 @@ namespace JustAnotherAndroidCalculator
                     _operationToPerform = CalculatorOperations.Division;
                     break;
             }
-
-            _firstNumber = Double.Parse(CurrentNumberAsString);
-
+            
             _operatorText = buttonText;
             CurrentNumberAsString = "0";
             _secondNumber = 0;
@@ -109,7 +127,14 @@ namespace JustAnotherAndroidCalculator
         }
         private string GetSummaryText()
         {
-            return $"{_firstNumber} {_operatorText} {_secondNumber}";
+            if (_secondNumber != null)
+            {
+                return $"{_firstNumber} {_operatorText} {_secondNumber}";
+            }
+            else
+            {
+                return $"{_firstNumber} {_operatorText}";
+            }
         }
     }
 }
