@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Liam Hayman Tansley</Authors>
+    <Company>Rascal Systems</Company>
+    <Product>Just Another Android Calculator</Product>
   </PropertyGroup>
 
   <ItemGroup>
