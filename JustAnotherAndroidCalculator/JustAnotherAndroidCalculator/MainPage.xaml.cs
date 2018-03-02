@@ -51,7 +51,7 @@ namespace JustAnotherAndroidCalculator
                 return;
             }
 
-            var didParse = Double.TryParse(CurrentNumberAsString, out var value);
+            var didParse = Double.TryParse(CurrentNumberAsString + buttonText, out var value);
             if (!didParse)
             {
                 value = Double.PositiveInfinity;
