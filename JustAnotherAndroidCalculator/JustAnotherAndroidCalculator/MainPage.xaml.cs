@@ -43,14 +43,18 @@ namespace JustAnotherAndroidCalculator
             CurrentNumberAsString = "0";
         }
 
-        private void NumberClicked(object sender, EventArgs e)
+        private async void NumberClicked(object sender, EventArgs e)
         {
             var buttonText = (sender as Button).Text;
-            CurrentEquationOverview.Text = CurrentEquationOverview.Text.TrimEnd(' ').TrimEnd('0').TrimEnd(CurrentNumberAsString.ToCharArray());
 
             CurrentNumberAsString = CurrentNumberAsString.ToLowerInvariant().Replace("infinity", "") + buttonText;
+            var didParse = Double.TryParse(CurrentNumberAsString, out var value);
 
-            var value = Double.Parse(CurrentNumberAsString);
+            if (!didParse)
+            {
+                await DisplayAlert("Number too long", "Your number was too long for the calculator to parse", "OK");
+            }
+
             CurrentNumberAsString = value.ToString();
 
             if (_operationToPerform == null)
@@ -115,7 +119,7 @@ namespace JustAnotherAndroidCalculator
             return Math.Round(_operationToPerform.Invoke(firstNumber.Value, secondNumber.Value), 2);
         }
 
-        private void EqualsClicked(object sender, EventArgs e)
+        private async void EqualsClicked(object sender, EventArgs e)
         {
             if (_operationToPerform == null)
             {
@@ -125,11 +129,20 @@ namespace JustAnotherAndroidCalculator
             _secondNumber = double.Parse(_currentNumberAsString);
             CurrentEquationOverview.Text = GetSummaryText();
 
-            var result = CalculateEquation(_firstNumber, _secondNumber);
-            CurrentNumberAsString = result.ToString();
+            try
+            {
+                var result = CalculateEquation(_firstNumber, _secondNumber);
+                CurrentNumberAsString = result.ToString();
+                _firstNumber = result;
+                _secondNumber = 0;
+            }
+            catch (FormatException)
+            {
+                await DisplayAlert("Unable to convert to number", "Your number was too long for the calculator to parse", "OK");
+                _secondNumber = 0;
+                return;
+            }
 
-            _firstNumber = result;
-            _secondNumber = 0;
             _operationToPerform = null;
         }
 
