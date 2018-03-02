@@ -69,13 +69,24 @@ namespace JustAnotherAndroidCalculator
             CurrentEquationOverview.Text = GetSummaryText();
         }
 
-        private void OperatorClicked(object sender, EventArgs e)
+        private async void OperatorClicked(object sender, EventArgs e)
         {
             var buttonText = (sender as Button).Text;
             if (_operationToPerform != null)
             {
-                var result = CalculateEquation(_firstNumber, _secondNumber);
-                _firstNumber = result;
+
+                try
+                {
+                    var result = CalculateEquation(_firstNumber, _secondNumber);
+                    _firstNumber = result;
+                }
+                catch (FormatException)
+                {
+                    await DisplayAlert("Unable to convert to number", "Your number was too long for the calculator to parse", "OK");
+                    _firstNumber = 0;
+                    CurrentNumberAsString = "0";
+                    return;
+                }
             }
             else
             {
@@ -140,6 +151,7 @@ namespace JustAnotherAndroidCalculator
             {
                 await DisplayAlert("Unable to convert to number", "Your number was too long for the calculator to parse", "OK");
                 _secondNumber = 0;
+                CurrentNumberAsString = "0";
                 return;
             }
 
