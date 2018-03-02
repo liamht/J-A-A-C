@@ -29,7 +29,7 @@ namespace JustAnotherAndroidCalculator
                 }
                 else if (value.Length > 5)
                 {
-                   CurrentNumber.FontSize = 40;
+                    CurrentNumber.FontSize = 40;
                 }
 
                 CurrentNumber.Text = value;
@@ -43,16 +43,18 @@ namespace JustAnotherAndroidCalculator
             CurrentNumberAsString = "0";
         }
 
-        private async void NumberClicked(object sender, EventArgs e)
+        private void NumberClicked(object sender, EventArgs e)
         {
             var buttonText = (sender as Button).Text;
+            if (CurrentNumberAsString == Double.PositiveInfinity.ToString())
+            {
+                return;
+            }
 
-            CurrentNumberAsString = CurrentNumberAsString.ToLowerInvariant().Replace("infinity", "") + buttonText;
             var didParse = Double.TryParse(CurrentNumberAsString, out var value);
-
             if (!didParse)
             {
-                await DisplayAlert("Number too long", "Your number was too long for the calculator to parse", "OK");
+                value = Double.PositiveInfinity;
             }
 
             CurrentNumberAsString = value.ToString();
@@ -69,24 +71,13 @@ namespace JustAnotherAndroidCalculator
             CurrentEquationOverview.Text = GetSummaryText();
         }
 
-        private async void OperatorClicked(object sender, EventArgs e)
+        private void OperatorClicked(object sender, EventArgs e)
         {
             var buttonText = (sender as Button).Text;
             if (_operationToPerform != null)
             {
-
-                try
-                {
-                    var result = CalculateEquation(_firstNumber, _secondNumber);
-                    _firstNumber = result;
-                }
-                catch (FormatException)
-                {
-                    await DisplayAlert("Unable to convert to number", "Your number was too long for the calculator to parse", "OK");
-                    _firstNumber = 0;
-                    CurrentNumberAsString = "0";
-                    return;
-                }
+                var result = CalculateEquation(_firstNumber, _secondNumber);
+                _firstNumber = result;
             }
             else
             {
@@ -108,7 +99,7 @@ namespace JustAnotherAndroidCalculator
                     _operationToPerform = CalculatorOperations.Division;
                     break;
             }
-            
+
             _operatorText = buttonText;
             CurrentNumberAsString = "0";
             _secondNumber = 0;
@@ -130,7 +121,7 @@ namespace JustAnotherAndroidCalculator
             return Math.Round(_operationToPerform.Invoke(firstNumber.Value, secondNumber.Value), 2);
         }
 
-        private async void EqualsClicked(object sender, EventArgs e)
+        private void EqualsClicked(object sender, EventArgs e)
         {
             if (_operationToPerform == null)
             {
@@ -140,20 +131,10 @@ namespace JustAnotherAndroidCalculator
             _secondNumber = double.Parse(_currentNumberAsString);
             CurrentEquationOverview.Text = GetSummaryText();
 
-            try
-            {
-                var result = CalculateEquation(_firstNumber, _secondNumber);
-                CurrentNumberAsString = result.ToString();
-                _firstNumber = result;
-                _secondNumber = 0;
-            }
-            catch (FormatException)
-            {
-                await DisplayAlert("Unable to convert to number", "Your number was too long for the calculator to parse", "OK");
-                _secondNumber = 0;
-                CurrentNumberAsString = "0";
-                return;
-            }
+            var result = CalculateEquation(_firstNumber, _secondNumber);
+            CurrentNumberAsString = result.ToString();
+            _firstNumber = result;
+            _secondNumber = 0;
 
             _operationToPerform = null;
         }
